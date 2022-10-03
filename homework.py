@@ -3,8 +3,6 @@ import json
 import logging
 import os
 import time
-from tkinter import END
-
 import requests
 import telegram
 
@@ -35,6 +33,7 @@ logger.addHandler(
     logging.StreamHandler()
 )
 
+
 class TheAnswerIsNot200Error(Exception):
     """Ответ сервера не равен 200."""
 
@@ -50,7 +49,9 @@ class UndocumentedStatusError(Exception):
 class RequestExceptionError(Exception):
     """Ошибка запроса."""
 
+
 def send_message(bot, message):
+    """Функция для отправки сообщения"""
     try:
         bot.send_message(TELEGRAM_CHAT_ID, message)
         logger.info(
@@ -61,8 +62,8 @@ def send_message(bot, message):
 
 
 def get_api_answer(current_timestamp):
+    """Получение ответа через API"""
     timestamp = current_timestamp or int(time.time())
-    params = {'from_date': timestamp}
     headers = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
     payload = {'from_date': current_timestamp}
     try:
@@ -85,6 +86,7 @@ def get_api_answer(current_timestamp):
 
 
 def check_response(response):
+    """Проверка ответа"""
     if not isinstance(response, dict):
         error_message = 'Не верный тип ответа API'
         logging.error(error_message)
@@ -107,6 +109,7 @@ def check_response(response):
 
 
 def parse_status(homework):
+    """Получение и проверка статуса"""
     if 'homework_name' not in homework:
         error_message = 'Ключ homework_name отсутствует'
         logging.error(error_message)
@@ -125,6 +128,7 @@ def parse_status(homework):
         raise Exception(error_message)
     verdict = HOMEWORK_STATUSES.get(homework_status)
     return f'Изменился статус проверки работы "{homework_name}". {verdict}'
+
 
 def extracted_from_parse_status(arg0, arg1):
     code_api_msg = f'{arg0}{arg1}'
