@@ -51,7 +51,7 @@ class RequestExceptionError(Exception):
 
 
 def send_message(bot, message):
-    """Функция для отправки сообщения"""
+    """Функция для отправки сообщения."""
     try:
         bot.send_message(TELEGRAM_CHAT_ID, message)
         logger.info(
@@ -62,8 +62,7 @@ def send_message(bot, message):
 
 
 def get_api_answer(current_timestamp):
-    """Получение ответа через API"""
-    timestamp = current_timestamp or int(time.time())
+    """Получение ответа через API."""
     headers = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
     payload = {'from_date': current_timestamp}
     try:
@@ -86,7 +85,7 @@ def get_api_answer(current_timestamp):
 
 
 def check_response(response):
-    """Проверка ответа"""
+    """Проверка ответа."""
     if not isinstance(response, dict):
         error_message = 'Не верный тип ответа API'
         logging.error(error_message)
@@ -109,7 +108,7 @@ def check_response(response):
 
 
 def parse_status(homework):
-    """Получение и проверка статуса"""
+    """Получение и проверка статуса."""
     if 'homework_name' not in homework:
         error_message = 'Ключ homework_name отсутствует'
         logging.error(error_message)
@@ -131,9 +130,11 @@ def parse_status(homework):
 
 
 def extracted_from_parse_status(arg0, arg1):
+    """Получение статуса из аргументов."""
     code_api_msg = f'{arg0}{arg1}'
     logger.error(code_api_msg)
     raise UndocumentedStatusError(code_api_msg)
+
 
 def check_tokens():
     no_tokens_msg = (
