@@ -50,7 +50,7 @@ class RequestExceptionError(Exception):
 def send_message(bot, message):
     """Функция для отправки сообщения."""
     logger.info(
-            f'Сообщение в Telegram подготовлено к отправке: {message}')
+               f'Сообщение в Telegram подготовлено к отправке: {message}')
     try:
         bot.send_message(TELEGRAM_CHAT_ID, message)
 
@@ -126,9 +126,6 @@ def extracted_from_parse_status(arg0, arg1):
 
 def check_tokens():
     """Проверка токенов."""
-    no_tokens_msg = (
-        'Программа принудительно остановлена. '
-        'Отсутствует обязательная переменная окружения:')
     tokens_bool = [PRACTICUM_TOKEN,TELEGRAM_TOKEN,TELEGRAM_CHAT_ID]
     return(all(tokens_bool))
 
