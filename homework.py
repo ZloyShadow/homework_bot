@@ -55,8 +55,7 @@ def send_message(bot, message):
         bot.send_message(TELEGRAM_CHAT_ID, message)
 
     except telegram.TelegramError as telegram_error:
-        logger.error(
-            f'Сообщение в Telegram не отправлено: {telegram_error}')
+        raise Exception(telegram_error)
     else:
         logger.info(
             f'Сообщение в Telegram отправлено: {message}')
@@ -102,14 +101,15 @@ def check_response(response):
 
 
 def parse_status(homework):
-    """Получение и проверка статуса."""
+    """Получение и проверка статуса. 105-107 нельзя удалять иначе ошибка get"""
     if 'homework_name' not in homework:
         error_message = 'Ключ homework_name отсутствует'
         raise KeyError(error_message)
     homework_name = homework.get('homework_name')
     homework_status = homework.get('status')
-    if homework_name is None or homework_status is None:
-        return 'Работа не сдана на проверку'
+    if homework_status is None:
+        error_message = 'Ключ homework_status отсутствует'
+        raise Exception(error_message)
     if homework_status not in HOMEWORK_STATUSES:
         error_message = 'Неизвестный статус домашней работы'
         raise Exception(error_message)
@@ -126,8 +126,7 @@ def extracted_from_parse_status(arg0, arg1):
 
 def check_tokens():
     """Проверка токенов."""
-    tokens_bool = [PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]
-    return(all(tokens_bool))
+    return(all([PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]))
 
 
 def main():
