@@ -101,7 +101,7 @@ def check_response(response):
 
 
 def parse_status(homework):
-    """Получение и проверка статуса. 105-107 нельзя удалять иначе ошибка get."""
+    """Получение и проверка статуса. 5-7 нельзя удалять иначе ошибка get."""
     if 'homework_name' not in homework:
         error_message = 'Ключ homework_name отсутствует'
         raise KeyError(error_message)
